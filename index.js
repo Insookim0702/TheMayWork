@@ -43,7 +43,7 @@
 
     BTN_TODO_SAVE.addEventListener('click', () => {
         if (TODO.value === '') {
-            alert('ㅗ나 먹어');
+            alert('Input to do something.');
             return;
         }
         setTodoList(TODO.value);
