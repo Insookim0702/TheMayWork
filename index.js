@@ -3,6 +3,7 @@
     const BTN_TODO_SAVE = document.querySelector('.btn_save');
     const TODO_UL = document.querySelector('.todo_ul');
     const BTN_TODO_DELETE = document.querySelector('.btn_delete');
+    const DUE_DATE = document.querySelector('.due_date');
 
     init();
     function init() {
@@ -19,37 +20,55 @@
 
     function writeList(todo, id) {
         if (todo) {
+            console.log(todo);
             const li = document.createElement('li');
+            const headerDiv = document.createElement('div');
+            const contentDiv = document.createElement('div');
             const todoValue = document.createElement('span');
+            const dueDate = document.createElement('span');
             const btnDelete = document.createElement('span');
             const btnUpdate = document.createElement('span');
+            headerDiv.className = 'headerDiv';
+            contentDiv.className = 'contentDiv';
             li.className = 'todo_li';
             li.id = id;
             todoValue.className = 'todo_value';
-            todoValue.textContent = todo;
-            todoValue.id = id;
+            todoValue.textContent = todo.todo;
+            dueDate.textContent = todo.due_date;
+            dueDate.className = 'todo_value';
             btnDelete.addEventListener('click', deleteTodo);
             btnDelete.id = id;
             btnDelete.textContent = 'delete';
             btnDelete.className = 'btn_delete';
-            // btnUpdate.addEventListener('click', updateTodo);
-            // btnUpdate.className = 'btn_update';
-            li.appendChild(todoValue);
-            li.appendChild(btnDelete);
-            // li.appendChild(btnUpdate);
+            headerDiv.appendChild(dueDate);
+            headerDiv.appendChild(btnDelete);
+            contentDiv.appendChild(todoValue);
+            li.appendChild(headerDiv);
+            li.appendChild(contentDiv);
             TODO_UL.appendChild(li);
         }
     }
 
     BTN_TODO_SAVE.addEventListener('click', () => {
+        const saveTodoData = {};
         if (TODO.value === '') {
             alert('Input to do something.');
             return;
+        } else {
+            saveTodoData.todo = TODO.value;
         }
-        setTodoList(TODO.value);
+
+        if (DUE_DATE.value === '') {
+            saveTodoData.due_date = 'No due date';
+        } else {
+            saveTodoData.due_date = DUE_DATE.value;
+        }
+
+        setTodoList(saveTodoData);
         const todoList = JSON.parse(localStorage.getItem('todoList'));
-        writeList(TODO.value, todoList.length);
+        writeList(saveTodoData, todoList.length);
         TODO.value = '';
+        DUE_DATE.value = '';
     });
 
     function setTodoList(todo) {
