@@ -1,3 +1,4 @@
+import './index.css';
 (() => {
     const TODO = document.querySelector('.todo');
     const BTN_TODO_SAVE = document.querySelector('.btn_save');
